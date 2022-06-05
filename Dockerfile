@@ -13,7 +13,6 @@ FROM registry.access.redhat.com/ubi$RHEL/ubi-minimal
 ARG RHEL
 ARG JAVA
 ARG ZING
-ARG AZUL
 ENV LANG='C.UTF-8' LANGUAGE='en_US:en' LC_ALL='C.UTF-8'
 COPY --from=builder /usr/local/lib/libz.* /usr/local/lib/
 COPY --from=builder /zing.repo  /etc/yum.repos.d/
