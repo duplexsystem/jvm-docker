@@ -18,11 +18,11 @@ COPY --from=builder /usr/local/lib/libz.* /usr/local/lib/
 COPY --from=builder /zing.repo  /etc/yum.repos.d/
 COPY --from=builder /epel-release-latest-$RHEL.noarch.rpm /
 
-RUN rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-$RHEL; rpm --import https://repos.azul.com/azul-repo.key; rpm -v -i /epel-release-latest-$RHEL.noarch.rpm; microdnf update; microdnf -y install zing-$ZING mimalloc ca-certificates kernel-headers curl-minimal openssl git pigz tar sqlite fontconfig freetype tzdata iproute libstdc++ jq unzip dos2unix wget; rm -rf /epel-release-latest-$RHEL.noarch.rpm /opt/zing/zing-$JAVA/lib/src.zip /opt/zing/zing-$JAVA/bin/zvision /opt/zing/zing-$JAVA/demo /opt/zing/zing-$JAVA/man /opt/zing/zing-$JAVA/legal /opt/zing/zing-$JAVA/include /opt/zing/zing-$JAVA/lib/security/cacerts; ln -sT /etc/pki/ca-trust/extracted/java/cacerts /opt/zing/zing-$JAVA/lib/security/cacerts; microdnf clean all; rm -rf /var/cache/yum; useradd -d /home/container -m container
+RUN rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-$RHEL; rpm --import https://repos.azul.com/azul-repo.key; rpm -v -i /epel-release-latest-$RHEL.noarch.rpm; microdnf update; microdnf -y install zing-$ZING mimalloc ca-certificates kernel-headers curl-minimal openssl git tar sqlite fontconfig freetype tzdata iproute libstdc++; rm -rf /epel-release-latest-$RHEL.noarch.rpm /opt/zing/zing-$JAVA/lib/src.zip /opt/zing/zing-$JAVA/bin/zvision /opt/zing/zing-$JAVA/demo /opt/zing/zing-$JAVA/man /opt/zing/zing-$JAVA/legal /opt/zing/zing-$JAVA/include /opt/zing/zing-$JAVA/lib/security/cacerts; ln -sT /etc/pki/ca-trust/extracted/java/cacerts /opt/zing/zing-$JAVA/lib/security/cacerts; microdnf clean all; rm -rf /var/cache/yum; useradd -d /home/container -m container
 
 USER container
-ENV LD_PRELOAD=/lib64/libmimalloc.so.2 \
-    MIMALLOC_LARGE_OS_PAGES=1 \
+#ENV LD_PRELOAD=/lib64/libmimalloc.so.2 \
+ENV MIMALLOC_LARGE_OS_PAGES=1 \
     JAVA_HOME=/opt/zing/zing-$JAVA \
     USER=container \ 
     HOME=/home/container
